@@ -14,7 +14,7 @@ CREATE TABLE questions (
   id INTEGER PRIMARY KEY autoincrement,
   title STRING NOT NULL,
   body VARCHAR(255) NOT NULL,
-  author INTEGER NOT NULL REFERENCES users(id)
+  author_id INTEGER NOT NULL REFERENCES users(id)
 );
 
 CREATE TABLE question_follows (
@@ -26,7 +26,7 @@ CREATE TABLE question_follows (
 CREATE TABLE replies (
   id INTEGER PRIMARY KEY autoincrement,
   question_id INTEGER NOT NULL REFERENCES questions(id),
-  parent_reply INTEGER REFERENCES replies(id),
+  parent_id INTEGER REFERENCES replies(id),
   --  didn't include not null in case where top reply doesn't have parent
   user_id INTEGER NOT NULL REFERENCES users(id),
   reply_body VARCHAR(255) NOT NULL
@@ -47,7 +47,7 @@ VALUES
   ('Kim', 'McPherson');
 
 INSERT INTO
-  questions (title, body, author)
+  questions (title, body, author_id)
 VALUES
   ('hows this work?', 'please tell me', 1),
   ('getting no replies', 'someone answer!', 1),
@@ -64,10 +64,11 @@ VALUES
   (2, 4);
 
 INSERT INTO
-  replies (question_id, parent_reply, user_id, reply_body)
+  replies (question_id, parent_id, user_id, reply_body)
 VALUES
   (1, NULL, 2, 'I dont know either - Dad'),
   (1, 1, 1, 'Thanks dad'),
+  (1, 1, 3, 'Hey guys.'),
   (4, NULL, 1, 'Hi Mom!');
 
 INSERT INTO

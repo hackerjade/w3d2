@@ -38,4 +38,38 @@ class User
   def authored_replies
     Reply.find_by_user_id(@id)
   end
+
+  def average_karma
+    QuestionLike.average_karma(@id)
+  end
+
+  def followed_questions
+    QuestionFollow.followed_questions_for_user_id(@id)
+  end
+
+  def liked_questions
+    QuestionLike.liked_questions_for_user_id(@id)
+  end
+
+  def save
+    attrs = [self.fname, self.lname]
+    if !self.id.nil?
+      QuestionsDatabase.instance.execute(<<-SQL, *attrs, @id)
+        UPDATE
+          fname = ?
+          lname = ?
+        WHERE
+          id = ?
+      SQL
+    else
+      QuestionsDatabase.instance.execute(<<-SQL, *attrs)
+        INSERT INTO
+          users (fname, lname)
+        VALUES
+          (?, ?)
+      SQL
+
+      @id = QuestionsDatabase.instance.last_insert_row_id
+    end
+  end
 end

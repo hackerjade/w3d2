@@ -27,13 +27,11 @@ CREATE TABLE replies (
   id INTEGER PRIMARY KEY autoincrement,
   question_id INTEGER NOT NULL REFERENCES questions(id),
   parent_id INTEGER REFERENCES replies(id),
-  --  didn't include not null in case where top reply doesn't have parent
   user_id INTEGER NOT NULL REFERENCES users(id),
   reply_body VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE question_likes (
-  -- insert a like column?
   id INTEGER PRIMARY KEY autoincrement,
   user_id INTEGER NOT NULL REFERENCES users(id),
   question_id INTEGER NOT NULL REFERENCES questions(id)
@@ -61,6 +59,7 @@ VALUES
   (1, 4),
   (2, 1),
   (2, 3),
+  (3, 3),
   (2, 4);
 
 INSERT INTO
@@ -77,4 +76,6 @@ VALUES
   (2, 1),
   (3, 1),
   (1, 4),
-  (1, 3);
+  (1, 3),
+  (2, 3),
+  (3, 3);

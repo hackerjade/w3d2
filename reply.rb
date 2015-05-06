@@ -91,4 +91,30 @@ class Reply
   def question
     Question.find_by_id(@question_id)
   end
+
+  def save
+    attrs = [self.question_id, self.parent_id, self.user_id, self.reply_body]
+    if !self.id.nil?
+      QuestionsDatabase.instance.execute(<<-SQL, *attrs, @id)
+        UPDATE
+          replies
+        SET
+          question_id = ?,
+          parent_id = ?,
+          user_id = ?,
+          reply_body = ?
+        WHERE
+          id = ?
+      SQL
+    else
+      QuestionsDatabase.instance.execute(<<-SQL, *attrs)
+        INSERT INTO
+          replies (question_id, parent_id, user_id, reply_body)
+        VALUES
+          (?, ?, ?, ?)
+      SQL
+
+      @id = QuestionsDatabase.instance.last_insert_row_id
+    end
+  end
 end

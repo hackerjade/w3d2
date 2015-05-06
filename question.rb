@@ -74,8 +74,10 @@ class Question
     if !self.id.nil?
       QuestionsDatabase.instance.execute(<<-SQL, *attrs, @id)
         UPDATE
-          title = ?
-          body = ?
+          questions
+        SET
+          title = ?,
+          body = ?,
           author_id = ?
         WHERE
           id = ?

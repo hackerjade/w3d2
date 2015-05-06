@@ -56,7 +56,9 @@ class User
     if !self.id.nil?
       QuestionsDatabase.instance.execute(<<-SQL, *attrs, @id)
         UPDATE
-          fname = ?
+          users
+        SET
+          fname = ?,
           lname = ?
         WHERE
           id = ?

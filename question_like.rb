@@ -125,7 +125,9 @@ class QuestionLike
     if !self.id.nil?
       QuestionsDatabase.instance.execute(<<-SQL, *attrs, @id)
         UPDATE
-          user_id = ?
+          question_likes
+        SET
+          user_id = ?,
           question_id = ?
         WHERE
           id = ?

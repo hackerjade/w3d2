@@ -1,4 +1,6 @@
-class User
+require_relative 'table'
+
+class User < Table
   def self.find_by_id(id_lookup)
     user = QuestionsDatabase.instance.execute(<<-SQL, id_lookup)
       SELECT
@@ -51,27 +53,29 @@ class User
     QuestionLike.liked_questions_for_user_id(@id)
   end
 
-  def save
-    attrs = [self.fname, self.lname]
-    if !self.id.nil?
-      QuestionsDatabase.instance.execute(<<-SQL, *attrs, @id)
-        UPDATE
-          users
-        SET
-          fname = ?,
-          lname = ?
-        WHERE
-          id = ?
-      SQL
-    else
-      QuestionsDatabase.instance.execute(<<-SQL, *attrs)
-        INSERT INTO
-          users (fname, lname)
-        VALUES
-          (?, ?)
-      SQL
 
-      @id = QuestionsDatabase.instance.last_insert_row_id
-    end
-  end
+
+  # def save
+  #   attrs = [self.fname, self.lname]
+  #   if !self.id.nil?
+  #     QuestionsDatabase.instance.execute(<<-SQL, *attrs, @id)
+  #       UPDATE
+  #         users
+  #       SET
+  #         fname = ?,
+  #         lname = ?
+  #       WHERE
+  #         id = ?
+  #     SQL
+  #   else
+  #     QuestionsDatabase.instance.execute(<<-SQL, *attrs)
+  #       INSERT INTO
+  #         users (fname, lname)
+  #       VALUES
+  #         (?, ?)
+  #     SQL
+  #
+  #     @id = QuestionsDatabase.instance.last_insert_row_id
+  #   end
+  # end
 end

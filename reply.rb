@@ -1,4 +1,4 @@
-class Reply
+class Reply < Table
   def self.find_by_id(id_lookup)
     return nil if id_lookup.nil?
 

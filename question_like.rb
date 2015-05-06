@@ -1,4 +1,4 @@
-class QuestionLike
+class QuestionLike < Table
   def self.average_karma(user_id_lookup)
     count = QuestionsDatabase.instance.execute(<<-SQL, user_id_lookup)
     SELECT

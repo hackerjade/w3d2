@@ -1,4 +1,4 @@
-class QuestionFollow
+class QuestionFollow < Table
   def self.find_by_id(id_lookup)
     question_follow = QuestionsDatabase.instance.execute(<<-SQL, id_lookup)
       SELECT

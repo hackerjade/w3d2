@@ -1,4 +1,4 @@
-class Question
+class Question < Table
   def self.find_by_author_id(author_id_lookup)
     questions = QuestionsDatabase.instance.execute(<<-SQL, author_id_lookup)
       SELECT
